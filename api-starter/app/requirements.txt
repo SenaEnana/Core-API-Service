@@ -3,17 +3,5 @@ uvicorn[standard]>=0.28.0
 pydantic-settings>=2.2.0
 python-dotenv>=1.0.1
 
+* GIT_AUTHOR_DATE="2026-09-11T10:00:00" GIT_COMMITTER_DATE="2026-09-11T10:00:00" git commit --date="2026-09-11T10:00:00" -m "commit message"
 
-
-
-5. Remember to use the following command to commit to the previous date
-  * git add .
-  * $env:GIT_AUTHOR_DATE="2026-08-15T04:00:00"
-  * $env:GIT_COMMITTER_DATE="2026-08-15T04:00:00"
-  * git add .
-  * git commit -m "message here"
-  * git commit -m "message here" or use the ff in one line
-  * GIT_AUTHOR_DATE="2026-09-11T10:00:00" GIT_COMMITTER_DATE="2026-09-11T10:00:00" git commit --date="2026-09-11T10:00:00" -m "commit message"
-6. Remember to view your work use the following command
-  * python -m uvicorn app.main:app --reload "or" in my case use the following
-  * python -m uvicorn backend.app.main:app --reload   
