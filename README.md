@@ -28,3 +28,8 @@ pip install -r requirements.txt
 ```Bash
 uvicorn app.main:app --reload
 ```
+4. Access interactive documentation:
+
+* Swagger UI: http://127.0.0.1:8000/docs
+
+* Health check: http://127.0.0.1:8000/health
