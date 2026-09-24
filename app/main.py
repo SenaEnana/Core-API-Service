@@ -37,10 +37,22 @@ async def health_check():
 async def ping():
     return {"message": "pong"}
 
-@app.get("/items/{item_id}")
+@app.post(f"{settings.API_PREFIX}/items", tags=["Item"])
+async def add_item():
+    return {"message": "added successfully"}
+
+@app.get(f"{settings.API_PREFIX}/items/", tags=["Item"])
 def read_item(item_id: int, q: str | None = None):
     return {"item_id": item_id, "q": q}
 
-@app.put("/items/{item_id}")
+@app.get(f"{settings.API_PREFIX}/items/""{item_id}", tags=["Item"])
+def get_item(item_id: int, q: str | None = None):
+    return {"item_id": item_id, "q": q}
+
+@app.put(f"{settings.API_PREFIX}/items/""{item_id}", tags=["Item"])
 def update_item(item_id: int, item: Item):
     return {"item_name": item.name, "item_id": item_id}
+
+@app.delete(f"{settings.API_PREFIX}/items/""{item_id}", tags=["Item"])
+def delete_item(item_id: int, item: Item):
+    return {item_id, "Item delete successfully"}
