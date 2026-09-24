@@ -33,7 +33,7 @@ async def health_check():
         "version": settings.VERSION,
     }
 
-@app.get(f"{settings.API_PREFIX}/ping", tags=["Health Check"])
+@app.get(f"{settings.API_PREFIX}/ping", tags=["API Health Check"])
 async def ping():
     return {"message": "pong"}
 
