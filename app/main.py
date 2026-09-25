@@ -100,6 +100,19 @@ def update_item(
     db.refresh(db_item)
     return db_item
 
+@app.delete(f"{settings.API_PERFIX}/items/{{item_id}}", tags=["Item"])
+def delete_item(item_id: int, db: Session = Depends(get_db)):
+    db_item = (
+        db.query(ItemModel).filter(ItemModel.id == item_id).first()
+    )
+    if db_item is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    db.delete(db_item)
+    db.commit()
+    return {"message": "Item deleted successfully", "id": item_id}
+
+
 
 # @app.get("/health", tags=["API Health Check"])
 # async def health_check():
