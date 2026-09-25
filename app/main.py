@@ -78,6 +78,28 @@ def read_item(item_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Item not found")
     return db_item
 
+@app.put(
+    f"{settings.API_PREFIX}/items/{{item_id}}",
+    response_model=ItemResponse,
+    tags=["Item"],
+)
+def update_item(
+    item_id: int, item_update: ItemCreate, db: Session = Depends(get_db)
+):
+    db_item = (
+        db.query(ItemModel).filter(ItemModel.id == item_id).first()
+    )
+    if db_item is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    db_item.name = item_update.name
+    db_item.price = item_update.price
+    db_item.is_offer = item_update.is_offer
+
+    db.commit()
+    db.refresh(db_item)
+    return db_item
+
 
 # @app.get("/health", tags=["API Health Check"])
 # async def health_check():
@@ -87,14 +109,6 @@ def read_item(item_id: int, db: Session = Depends(get_db)):
 #         "version": settings.VERSION,
 #     }
 
-# @app.get(f"{settings.API_PREFIX}/ping", tags=["API Health Check"])
-# async def ping():
-#     return {"message": "pong"}
-
-
-# @app.post(f"{settings.API_PREFIX}/items", tags=["Item"])
-# async def add_item(item: Item):
-#     return {"message": "Item added successfully", "data": item}
 
 # @app.post(f"{settings.API_PREFIX}/items/{{item_id}}", tags=["Item"])
 # async def search_item(item_id: int, item: Item):
