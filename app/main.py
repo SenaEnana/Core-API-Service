@@ -58,7 +58,7 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
     return db_item
 
 @app.get(
-    f"{settings.API.PREFIX}/items",
+    f"{settings.API_PREFIX}/items",
     response_model=ItemResponse,
     tags=["Item"]
 )
@@ -100,7 +100,10 @@ def update_item(
     db.refresh(db_item)
     return db_item
 
-@app.delete(f"{settings.API_PERFIX}/items/{{item_id}}", tags=["Item"])
+@app.delete(
+        f"{settings.API_PREFIX}/items/{{item_id}}", 
+        tags=["Item"]
+        )
 def delete_item(item_id: int, db: Session = Depends(get_db)):
     db_item = (
         db.query(ItemModel).filter(ItemModel.id == item_id).first()
