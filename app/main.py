@@ -75,12 +75,10 @@ def search_items_by_name(q: str, db: Session = Depends(get_db)):
     response_model=list[ItemResponse],
     tags=["Item"]
 )
-def read_items(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return db.query(ItemModel).offset(skip).limit(limit).all()
 
 @app.get(
         f"{settings.API_PREFIX}/items/{{item_id}}",
-        response_model=ItemResponse,
+        response_model=list[ItemResponse],
         tags=["Item"],
 )
 def search_item(item_id: int, db: Session = Depends(get_db)):
@@ -94,6 +92,8 @@ def search_item(item_id: int, db: Session = Depends(get_db)):
             )
     return db_item
 
+def read_items(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    return db.query(ItemModel).offset(skip).limit(limit).all()
 
 @app.get(
     f"{settings.API_PREFIX}/items/{{item_id}}",
