@@ -57,7 +57,7 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
     db.refresh(db_item)
     return db_item
 
-@app.post(
+@app.get(
         f"{settings.API_PREFIX}/items/{{item_id}}",
         response_model=ItemResponse,
         tags=["Item"],
