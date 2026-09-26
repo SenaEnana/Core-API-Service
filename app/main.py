@@ -58,9 +58,9 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
     return db_item
 
 @app.get(
-        f"{settings.API_PREFIX}/items/search/",
-        response_model=list[ItemResponse],
-        tags=["Item"],
+    f"{settings.API_PREFIX}/items/search/",
+    response_model=list[ItemResponse],
+    tags=["Item"],
 )
 def search_items_by_name(q: str, db: Session = Depends(get_db)):
     results = (
@@ -70,30 +70,31 @@ def search_items_by_name(q: str, db: Session = Depends(get_db)):
     )
     return results
 
-@app.get(
-    f"{settings.API_PREFIX}/items",
-    response_model=list[ItemResponse],
-    tags=["Item"]
-)
 
 @app.get(
-        f"{settings.API_PREFIX}/items/{{item_id}}",
-        response_model=list[ItemResponse],
-        tags=["Item"],
+    f"{settings.API_PREFIX}/items/{{item_id}}",
+    response_model=ItemResponse,
+    tags=["Item"],
 )
 def search_item(item_id: int, db: Session = Depends(get_db)):
-    db_item=(
+    db_item = (
         db.query(ItemModel).filter(ItemModel.id == item_id).first()
     )
     if db_item is None:
         raise HTTPException(
             status_code=404, 
             detail=f"Item {item_id} could not be found"
-            )
+        )
     return db_item
 
+@app.get(
+    f"{settings.API_PREFIX}/items",
+    response_model=list[ItemResponse],
+    tags=["Item"]
+)
 def read_items(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     return db.query(ItemModel).offset(skip).limit(limit).all()
+
 
 @app.get(
     f"{settings.API_PREFIX}/items/{{item_id}}",
