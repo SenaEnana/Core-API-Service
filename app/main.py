@@ -59,13 +59,13 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
 
 @app.get(
         f"{settings.API_PREFIX}/items/search/",
-        response_model=ItemResponse,
+        response_model=list[ItemResponse],
         tags=["Item"],
 )
 def search_items_by_name(q: str, db: Session = Depends(get_db)):
     results = (
         db.query(ItemModel)
-        .filter(ItemModel.name.contains(q))
+        .filter(ItemModel.name.ilike(f"%{q}%"))
         .all()
     )
     return results
