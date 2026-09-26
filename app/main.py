@@ -136,12 +136,3 @@ def health_check():
         "service": settings.PROJECT_NAME,
         "version": settings.VERSION,
     }
-
-
-# @app.post(f"{settings.API_PREFIX}/items/{{item_id}}", tags=["Item"])
-# async def search_item(item_id: int, item: Item):
-#     if item_id == Item:
-#         return{item_id: "Item", "message" : "Found Successfully"}
-#     return {item_id: "item_id", "message": "Couldn't be found in the", item: "Item"}
-
-
