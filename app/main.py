@@ -72,7 +72,7 @@ def search_items_by_name(q: str, db: Session = Depends(get_db)):
 
 @app.get(
     f"{settings.API_PREFIX}/items",
-    response_model=ItemResponse,
+    response_model=list[ItemResponse],
     tags=["Item"]
 )
 def read_items(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
