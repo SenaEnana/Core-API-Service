@@ -33,3 +33,6 @@ uvicorn app.main:app --reload
 * Swagger UI: http://127.0.0.1:8000/docs
 
 * Health check: http://127.0.0.1:8000/health
+
+```bash
+check check tmrw
