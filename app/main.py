@@ -59,6 +59,7 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
 
 @app.post(
         f"{settings.API_PREFIX}/items/{{item_id}}",
+        response_model=ItemResponse,
         tags=["Item"],
 )
 def search_item(item_id: int, db: Session = Depends(get_db)):
@@ -66,7 +67,10 @@ def search_item(item_id: int, db: Session = Depends(get_db)):
         db.query(ItemModel).filter(ItemModel.id == item_id).first()
     )
     if db_item is None:
-        raise HTTPException(status_code=404, detail=f"Item {item_id} could not be found")
+        raise HTTPException(
+            status_code=404, 
+            detail=f"Item {item_id} could not be found"
+            )
     return db_item
 
 
@@ -136,12 +140,3 @@ def health_check():
         "service": settings.PROJECT_NAME,
         "version": settings.VERSION,
     }
-
-
-# @app.post(f"{settings.API_PREFIX}/items/{{item_id}}", tags=["Item"])
-# async def search_item(item_id: int, item: Item):
-#     if item_id == Item:
-#         return{item_id: "Item", "message" : "Found Successfully"}
-#     return {item_id: "item_id", "message": "Couldn't be found in the", item: "Item"}
-
-
