@@ -59,6 +59,7 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
 
 @app.post(
         f"{settings.API_PREFIX}/items/{{item_id}}",
+        response_model=ItemResponse,
         tags=["Item"],
 )
 def search_item(item_id: int, db: Session = Depends(get_db)):
@@ -66,7 +67,10 @@ def search_item(item_id: int, db: Session = Depends(get_db)):
         db.query(ItemModel).filter(ItemModel.id == item_id).first()
     )
     if db_item is None:
-        raise HTTPException(status_code=404, detail=f"Item {item_id} could not be found")
+        raise HTTPException(
+            status_code=404, 
+            detail=f"Item {item_id} could not be found"
+            )
     return db_item
 
 
