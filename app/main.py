@@ -58,21 +58,17 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
     return db_item
 
 @app.get(
-        f"{settings.API_PREFIX}/items/search/"
+        f"{settings.API_PREFIX}/items/search/",
+        response_model=ItemResponse,
+        tags=["Item"],
 )
-
-# @app.get(
-#     f"{settings.API_PREFIX}/items/search/",
-#     response_model=list[ItemResponse],
-#     tags=["Item"],
-# )
-# def search_items_by_name(q: str, db: Session = Depends(get_db)):
-#     results = (
-#         db.query(ItemModel)
-#         .filter(ItemModel.name.contains(q))
-#         .all()
-#     )
-#     return results
+def search_items_by_name(q: str, db: Session = Depends(get_db)):
+    results = (
+        db.query(ItemModel)
+        .filter(ItemModel.name.contains(q))
+        .all()
+    )
+    return results
 
 @app.get(
     f"{settings.API_PREFIX}/items",
