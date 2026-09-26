@@ -57,7 +57,28 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
     db.refresh(db_item)
     return db_item
 
-@app.post(
+@app.get(
+        f"{settings.API_PREFIX}/items/search/",
+        response_model=ItemResponse,
+        tags=["Item"],
+)
+def search_items_by_name(q: str, db: Session = Depends(get_db)):
+    results = (
+        db.query(ItemModel)
+        .filter(ItemModel.name.contains(q))
+        .all()
+    )
+    return results
+
+@app.get(
+    f"{settings.API_PREFIX}/items",
+    response_model=ItemResponse,
+    tags=["Item"]
+)
+def read_items(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    return db.query(ItemModel).offset(skip).limit(limit).all()
+
+@app.get(
         f"{settings.API_PREFIX}/items/{{item_id}}",
         response_model=ItemResponse,
         tags=["Item"],
@@ -73,14 +94,6 @@ def search_item(item_id: int, db: Session = Depends(get_db)):
             )
     return db_item
 
-
-@app.get(
-    f"{settings.API_PREFIX}/items",
-    response_model=ItemResponse,
-    tags=["Item"]
-)
-def read_items(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return db.query(ItemModel).offset(skip).limit(limit).all()
 
 @app.get(
     f"{settings.API_PREFIX}/items/{{item_id}}",
