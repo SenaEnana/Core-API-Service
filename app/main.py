@@ -52,3 +52,7 @@ def get_item(item_id: int, q: str | None = None):
 @app.put(f"{settings.API_PREFIX}/items/""{item_id}", tags=["Item"])
 def update_item(item_id: int, item: Item):
     return {"item_name": item.name, "item_id": item_id}
+
+@app.delete(f"{settings.API_PREFIX}/items/""{item_id}", tags=["Item"])
+def delete_item(item_id: int, item: Item):
+    return {item_id, "Item delete successfully"}
