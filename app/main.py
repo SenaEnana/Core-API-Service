@@ -15,6 +15,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+@app.get("/")
+def read_root():
+    return {"Welcome to the Core API Service"}
 
 @app.get("/health", tags=["Health Check"])
 async def health_check():
