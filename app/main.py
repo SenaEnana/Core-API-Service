@@ -42,8 +42,8 @@ async def add_item():
     return {"message": "added successfully"}
 
 @app.get(f"{settings.API_PREFIX}/items/", tags=["Item"])
-def read_item(item_id: int, q: str | None = None):
-    return {"item_id": item_id, "q": q}
+def read_items(item: Item):
+    return {"items": Item}
 
 @app.get(f"{settings.API_PREFIX}/items/{item_id}", tags=["Item"])
 def get_item(item_id: int, q: str | None = None):
