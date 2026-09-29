@@ -44,6 +44,12 @@ async def ping():
 async def add_item(item: Item):
     return {"message": "Item added successfully", "data": item}
 
+@app.post(f"{settings.API_PREFIX}/items/{{item_id}}", tags=["Item"])
+async def search_item(item_id: int, item: Item):
+    if item_id == Item:
+        return{item_id: "Item", "message" : "Found Successfully"}
+    return {item_id: "item_id", "message": "Couldn't be found in the", item: "Item"}
+
 
 @app.get(f"{settings.API_PREFIX}/items", tags=["Item"])
 def list_items(q: str | None = None):
