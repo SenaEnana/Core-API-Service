@@ -57,20 +57,14 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
     db.refresh(db_item)
     return db_item
 
-# @app.post(
-#     f"{settings.API_PREFIX}/items",
-#     response_model=ItemResponse,
-#     status_code=status.HTTP_201_CREATED,
-#     tags=["Item"],
-# )
-# def create_item(item: ItemCreate, db: Session = Depends(get_db)):
-#     db_item = ItemModel(
-#         name=item.name, price=item.price, is_offer=item.is_offer
-#     )
-#     db.add(db_item)
-#     db.commit()
-#     db.refresh(db_item)
-#     return db_item
+@app.get(
+    f"{settings.API.PREFIX}/items",
+    response_model=ItemResponse,
+    tags=["Item"]
+)
+def read_items(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    return db.query(ItemModel).offset(skip).limit(limit).all()
+
 
 # @app.get("/health", tags=["API Health Check"])
 # async def health_check():
