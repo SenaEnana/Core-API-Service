@@ -9,12 +9,10 @@ app = FastAPI(
     openapi_url=f"{settings.API_PREFIX}/openapi.json",
 )
 
-
 class Item(BaseModel):
     name: str
     price: float
     is_offer: bool | None = None
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -23,7 +21,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 @app.get("/")
 def read_root():
@@ -37,7 +34,6 @@ async def health_check():
         "service": settings.PROJECT_NAME,
         "version": settings.VERSION,
     }
-
 
 @app.get(f"{settings.API_PREFIX}/ping", tags=["API Health Check"])
 async def ping():
