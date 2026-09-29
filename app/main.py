@@ -37,10 +37,9 @@ class ItemResponse(ItemBase):
     class Config:
         from_attributes: True
 
-
-# @app.get("/")
-# def read_root():
-#     return {"message": "Welcome to the Core API Service"}
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Core API Service"}
 
 
 # @app.get("/health", tags=["API Health Check"])
