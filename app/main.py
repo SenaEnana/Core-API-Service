@@ -42,6 +42,36 @@ def read_root():
     return {"message": "Welcome to the Core API Service"}
 
 
+@app.post(
+    f"{settings.API_PREFIX}/items",
+    response_model=ItemResponse,
+    status_code=status.HTTP_201_CREATED,
+    tags=["Item"]
+)
+def create_item(item: ItemCreate, db: Session = Depends(get_db)):
+    db_item = ItemModel(
+        name=item.name, price=item.price, is_offer=item.is_offer
+    )
+    db.add(db_item)
+    db.commit()
+    db.refresh(db_item)
+    return db_item
+
+# @app.post(
+#     f"{settings.API_PREFIX}/items",
+#     response_model=ItemResponse,
+#     status_code=status.HTTP_201_CREATED,
+#     tags=["Item"],
+# )
+# def create_item(item: ItemCreate, db: Session = Depends(get_db)):
+#     db_item = ItemModel(
+#         name=item.name, price=item.price, is_offer=item.is_offer
+#     )
+#     db.add(db_item)
+#     db.commit()
+#     db.refresh(db_item)
+#     return db_item
+
 # @app.get("/health", tags=["API Health Check"])
 # async def health_check():
 #     return {
