@@ -15,18 +15,28 @@ app = FastAPI(
     openapi_url=f"{settings.API_PREFIX}/openapi.json",
 )
 
-# class Item(BaseModel):
-#     name: str
-#     price: float
-#     is_offer: bool | None = None
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=settings.ALLOWED_ORIGINS,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+class ItemBase(BaseModel):
+    name: str
+    price: float
+    is_offer: bool | None = False
+
+class ItemCreate(ItemBase):
+    pass
+
+class ItemResponse(ItemBase):
+    id: int
+
+    class Config:
+        from_attributes: True
+
 
 # @app.get("/")
 # def read_root():
