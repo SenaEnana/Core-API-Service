@@ -23,7 +23,7 @@ app.add_middleware(
 )
 @app.get("/")
 def read_root():
-    return {"Welcome to the Core API Service"}
+    return {"message" : "Welcome to the Core API Service"}
 
 @app.get("/health", tags=["API Health Check"])
 async def health_check():
