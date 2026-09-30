@@ -5,7 +5,6 @@ from app.config import settings
 from app.database import Base, engine
 from app.routers import items
 
-# Create database tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -22,7 +21,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Register routers with global API prefix
 app.include_router(items.router, prefix=settings.API_PREFIX)
 
 
