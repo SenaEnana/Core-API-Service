@@ -1,22 +1,5 @@
 from pydantic import BaseModel, EmailStr
 
-class ItemBase(BaseModel):
-    name: str
-    price: float
-    is_offer: bool | None = False
-
-
-class ItemCreate(ItemBase):
-    pass
-
-
-class ItemResponse(ItemBase):
-    id: int
-
-    class Config:
-        from_attributes = True
-
-
 class UserBase(BaseModel):
     email: EmailStr
     username: str
@@ -41,3 +24,22 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: str | None = None
+
+
+class ItemBase(BaseModel):
+    name: str
+    price: float
+    is_offer: bool | None = False
+
+
+class ItemCreate(ItemBase):
+    pass
+
+
+class ItemResponse(ItemBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+
+
