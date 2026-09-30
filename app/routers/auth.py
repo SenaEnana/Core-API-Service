@@ -46,13 +46,11 @@ def get_current_user(
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
-    # Check if user/email already exists
     if db.query(UserModel).filter(UserModel.email == user.email).first():
         raise HTTPException(status_code=400, detail="Email already registered")
     if db.query(UserModel).filter(UserModel.username == user.username).first():
         raise HTTPException(status_code=400, detail="Username already taken")
 
-    # Hash password and store
     hashed_pwd = get_password_hash(user.password)
     db_user = UserModel(
         email=user.email,
@@ -65,22 +63,33 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     return db_user
 
 
-# @router.post("/token", response_model=Token)
-# def login_for_access_token(
-#     form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
+@router.post("/token", response_model=Token)
+def login_for_access_token(
+    form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
+):
+    user = db.query(UserModel).filter(UserModel.username == form_data.username).first()
+    if not user or not verify_password(form_data.password, user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    access_token = create_access_token(data={"sub": user.username})
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.get("/me", response_model=UserResponse)
+def read_users_me(current_user: UserModel = Depends(get_current_user)):
+    return current_user
+
+# from app.routers.auth import get_current_user
+
+# @router.post("", response_model=ItemResponse)
+# def create_item(
+#     item: ItemCreate,
+#     db: Session = Depends(get_db),
+#     current_user: UserModel = Depends(get_current_user),  # Protected!
 # ):
-#     user = db.query(UserModel).filter(UserModel.username == form_data.username).first()
-#     if not user or not verify_password(form_data.password, user.hashed_password):
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Incorrect username or password",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-
-#     access_token = create_access_token(data={"sub": user.username})
-#     return {"access_token": access_token, "token_type": "bearer"}
-
-
-# @router.get("/me", response_model=UserResponse)
-# def read_users_me(current_user: UserModel = Depends(get_current_user)):
-#     return current_user
+#     # Only authenticated users can reach this point
+#     ...
