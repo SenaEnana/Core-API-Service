@@ -44,25 +44,25 @@ def get_current_user(
     return user
 
 
-# @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-# def register_user(user: UserCreate, db: Session = Depends(get_db)):
-#     # Check if user/email already exists
-#     if db.query(UserModel).filter(UserModel.email == user.email).first():
-#         raise HTTPException(status_code=400, detail="Email already registered")
-#     if db.query(UserModel).filter(UserModel.username == user.username).first():
-#         raise HTTPException(status_code=400, detail="Username already taken")
+@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+def register_user(user: UserCreate, db: Session = Depends(get_db)):
+    # Check if user/email already exists
+    if db.query(UserModel).filter(UserModel.email == user.email).first():
+        raise HTTPException(status_code=400, detail="Email already registered")
+    if db.query(UserModel).filter(UserModel.username == user.username).first():
+        raise HTTPException(status_code=400, detail="Username already taken")
 
-#     # Hash password and store
-#     hashed_pwd = get_password_hash(user.password)
-#     db_user = UserModel(
-#         email=user.email,
-#         username=user.username,
-#         hashed_password=hashed_pwd,
-#     )
-#     db.add(db_user)
-#     db.commit()
-#     db.refresh(db_user)
-#     return db_user
+    # Hash password and store
+    hashed_pwd = get_password_hash(user.password)
+    db_user = UserModel(
+        email=user.email,
+        username=user.username,
+        hashed_password=hashed_pwd,
+    )
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
 
 
 # @router.post("/token", response_model=Token)
