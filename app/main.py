@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import Base, engine
-from app.routers import items
+from app.routers import items, auth, orders, users, uploads
 
 Base.metadata.create_all(bind=engine)
 
@@ -22,6 +22,10 @@ app.add_middleware(
 )
 
 app.include_router(items.router, prefix=settings.API_PREFIX)
+app.include_router(auth.router, prefix=settings.API_PREFIX)
+app.include_router(orders.router, prefix=settings.API_PREFIX)
+app.include_router(users.router, prefix=settings.API_PREFIX)
+app.include_router(uploads.router, prefix=settings.API_PREFIX)
 
 
 @app.get("/")
