@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models import ItemModel
+from app.models import ItemModel, UserModel
+from app.routers.auth import get_current_user
 from app.schemas import ItemCreate, ItemResponse
 
 router = APIRouter(
@@ -10,20 +11,16 @@ router = APIRouter(
     tags=["Item"],
 )
 
+# ----------------------------
+# 1. PUBLIC ROUTES (Anyone can access)
+# ----------------------------
 
-@router.post(
+@router.get(
     "",
-    response_model=ItemResponse,
-    status_code=status.HTTP_201_CREATED,
+    response_model=list[ItemResponse],
 )
-def create_item(item: ItemCreate, db: Session = Depends(get_db)):
-    db_item = ItemModel(
-        name=item.name, price=item.price, is_offer=item.is_offer
-    )
-    db.add(db_item)
-    db.commit()
-    db.refresh(db_item)
-    return db_item
+def read_items(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    return db.query(ItemModel).offset(skip).limit(limit).all()
 
 
 @router.get(
@@ -37,14 +34,6 @@ def search_items_by_name(q: str, db: Session = Depends(get_db)):
         .all()
     )
     return results
-
-
-@router.get(
-    "",
-    response_model=list[ItemResponse],
-)
-def read_items(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return db.query(ItemModel).offset(skip).limit(limit).all()
 
 
 @router.get(
@@ -62,13 +51,38 @@ def read_item(item_id: int, db: Session = Depends(get_db)):
         )
     return db_item
 
+# ----------------------------
+# 2. PROTECTED ROUTES (Requires Bearer Token)
+# ----------------------------
+
+@router.post(
+    "",
+    response_model=ItemResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_item(
+    item: ItemCreate, 
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),  # <-- PROTECTED!
+    ):
+    db_item = ItemModel(
+        name=item.name, price=item.price, is_offer=item.is_offer
+    )
+    db.add(db_item)
+    db.commit()
+    db.refresh(db_item)
+    return db_item
+
 
 @router.put(
     "/{item_id}",
     response_model=ItemResponse,
 )
 def update_item(
-    item_id: int, item_update: ItemCreate, db: Session = Depends(get_db)
+    item_id: int, 
+    item_update: ItemCreate, 
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),  # <-- PROTECTED!
 ):
     db_item = (
         db.query(ItemModel).filter(ItemModel.id == item_id).first()
@@ -86,7 +100,11 @@ def update_item(
 
 
 @router.delete("/{item_id}")
-def delete_item(item_id: int, db: Session = Depends(get_db)):
+def delete_item(
+    item_id: int, 
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),  # <-- PROTECTED!
+    ):
     db_item = (
         db.query(ItemModel).filter(ItemModel.id == item_id).first()
     )
