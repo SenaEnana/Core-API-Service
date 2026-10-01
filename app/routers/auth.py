@@ -82,14 +82,3 @@ def login_for_access_token(
 @router.get("/me", response_model=UserResponse)
 def read_users_me(current_user: UserModel = Depends(get_current_user)):
     return current_user
-
-# from app.routers.auth import get_current_user
-
-# @router.post("", response_model=ItemResponse)
-# def create_item(
-#     item: ItemCreate,
-#     db: Session = Depends(get_db),
-#     current_user: UserModel = Depends(get_current_user),  # Protected!
-# ):
-#     # Only authenticated users can reach this point
-#     ...
