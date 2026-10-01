@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models import UserModel
+from app.models import UserModel, UserRole
 from app.schemas import Token, UserCreate, UserResponse
 from app.security import (
     ALGORITHM,
@@ -44,6 +44,22 @@ def get_current_user(
     return user
 
 
+class RequireRole:
+    """Dependency that checks if the authenticated user has one of the allowed roles."""
+    def __init__(self, allowed_roles: list[UserRole]):
+        self.allowed_roles = allowed_roles
+
+    def __call__(self, current_user: UserModel = Depends(get_current_user)) -> UserModel:
+        if current_user.role not in self.allowed_roles:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"Operation not permitted. Required role: {[r.value for r in self.allowed_roles]}",
+            )
+        return current_user
+
+require_admin = RequireRole([UserRole.ADMIN])
+require_user_or_admin = RequireRole([UserRole.USER, UserRole.ADMIN])
+
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
     if db.query(UserModel).filter(UserModel.email == user.email).first():
@@ -80,5 +96,9 @@ def login_for_access_token(
 
 
 @router.get("/me", response_model=UserResponse)
-def read_users_me(current_user: UserModel = Depends(get_current_user)):
+def read_users_me(
+    current_user: UserModel = Depends(get_current_user),
+    admin_user: UserModel = Depends(require_admin),  # 🔒 Admin-only!
+    ):
+    """Only users with role='admin' can view all registered users."""
     return current_user

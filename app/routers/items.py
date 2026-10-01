@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import ItemModel, UserModel
-from app.routers.auth import get_current_user
+from app.routers.auth import get_current_user, require_admin
 from app.schemas import ItemCreate, ItemResponse
 
 router = APIRouter(
@@ -64,6 +64,7 @@ def create_item(
     item: ItemCreate, 
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user),  # <-- PROTECTED!
+    admin_user: UserModel = Depends(require_admin),  # 🔒 Admin-only!
     ):
     db_item = ItemModel(
         name=item.name, price=item.price, is_offer=item.is_offer
@@ -83,6 +84,7 @@ def update_item(
     item_update: ItemCreate, 
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user),  # <-- PROTECTED!
+    admin_user: UserModel = Depends(require_admin),  # 🔒 Admin-only!
 ):
     db_item = (
         db.query(ItemModel).filter(ItemModel.id == item_id).first()
@@ -104,6 +106,7 @@ def delete_item(
     item_id: int, 
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user),  # <-- PROTECTED!
+    admin_user: UserModel = Depends(require_admin),  # 🔒 Admin-only!
     ):
     db_item = (
         db.query(ItemModel).filter(ItemModel.id == item_id).first()
