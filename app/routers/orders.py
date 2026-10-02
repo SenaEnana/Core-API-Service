@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models import UserModel
+from app.models import UserModel, OrderModel
 from app.routers.auth import get_current_user, require_admin
 
 router = APIRouter(
@@ -23,7 +23,6 @@ def create_order(
     current_user: UserModel = Depends(get_current_user),
 ):
     """Create a new order assigned to the authenticated user."""
-    # Assuming you have an OrderModel configured
     # new_order = OrderModel(**order_data.model_dump(), user_id=current_user.id)
     # db.add(new_order)
     # db.commit()
