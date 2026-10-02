@@ -45,3 +45,20 @@ class ItemResponse(ItemBase):
 
     class Config:
         from_attributes = True
+
+
+class OrderBase(BaseModel):
+    name: str
+    order_number: int
+    description: str
+
+
+class OrderCreate(ItemBase):
+    pass
+
+
+class OrderResponse(ItemBase):
+    id: int
+
+    class Config:
+        from_attributes = True
