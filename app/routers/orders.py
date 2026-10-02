@@ -23,9 +23,9 @@ def create_order(
     current_user: UserModel = Depends(get_current_user),
 ):
     """Create a new order assigned to the authenticated user."""
-    # new_order = OrderModel(**order_data.model_dump(), user_id=current_user.id)
-    # db.add(new_order)
-    # db.commit()
+    new_order = OrderModel(**order_data.model_dump(), user_id=current_user.id)
+    db.add(new_order)
+    db.commit()
     return {
         "message": "Order created successfully",
         "user_id": current_user.id,
