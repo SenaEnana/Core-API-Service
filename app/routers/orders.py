@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import UserModel, OrderModel
+from app.schemas import OrderCreate, OrderResponse
 from app.routers.auth import get_current_user, require_admin
 
 router = APIRouter(
@@ -12,11 +13,11 @@ router = APIRouter(
 )
 
 class OrderCreate(BaseModel):
-    item_name: str
-    quantity: int
-    total_price: float
+    name: str
+    order_number: int
+    description: str
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=OrderResponse, status_code=status.HTTP_201_CREATED)
 def create_order(
     order_data: OrderCreate,
     db: Session = Depends(get_db),
