@@ -1,4 +1,3 @@
-# app/routers/orders.py
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -33,13 +32,3 @@ def create_order(
         "user_id": current_user.id,
         "order": order_data,
     }
-
-
-@router.get("/my-orders")
-def get_my_orders(
-    current_user: UserModel = Depends(get_current_user),
-    db: Session = Depends(get_db),
-):
-    """Get all orders belonging to the logged-in user."""
-    # return db.query(OrderModel).filter(OrderModel.user_id == current_user.id).all()
-    return {"user": current_user.username, "orders": []}
