@@ -122,3 +122,13 @@ try:
 
 ---
 
+```code
+user = db.query(UserModel).filter(UserModel.username == username).first()
+    if user is None:
+        raise credentials_exception
+    return user
+```
+* Database Lookup: Fetches the matching UserModel row from the database using the decoded username. Returning user means downstream route handlers receive the fully populated SQLAlchemy model object.
+
+---
+
