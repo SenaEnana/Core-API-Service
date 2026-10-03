@@ -209,5 +209,12 @@ access_token = create_access_token(data={"sub": user.username})
 
 * Token Issuance: Encodes {"sub": "johndoe"} into a JWT and returns a dictionary matching the Token schema structure:
 
+```code
+{
+  "access_token": "eyJhbGciOi...",
+  "token_type": "bearer"
+}
+```
+
 ---
 
