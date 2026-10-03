@@ -218,3 +218,14 @@ access_token = create_access_token(data={"sub": user.username})
 
 ---
 
+6. Current User Profile Endpoint (/me)
+
+```code
+@router.get("/me", response_model=UserResponse)
+def read_users_me(current_user: UserModel = Depends(get_current_user)):
+    return current_user
+```
+
+* How It Works: Injects get_current_user. If a valid token is supplied in the request header, get_current_user extracts the user object and passes it to current_user. The function simply returns that object, which UserResponse serializes back to JSON.
+
+---
