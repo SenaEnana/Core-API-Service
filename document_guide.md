@@ -185,3 +185,20 @@ def login_for_access_token(
 ```
 
 * OAuth2PasswordRequestForm: Captures credentials submitted as form data (form_data.username and form_data.password).
+
+---
+
+```code
+user = db.query(UserModel).filter(UserModel.username == form_data.username).first()
+    if not user or not verify_password(form_data.password, user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+```
+
+* Validation: Fetches the user record by username and uses verify_password() to compare the plain text password against user.hashed_password. Returns 401 Unauthorized if either check fails.
+
+---
+
