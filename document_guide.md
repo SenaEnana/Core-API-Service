@@ -48,3 +48,18 @@ from app.security import (
     verify_password,
 )
 ```
+
+* get_db: Yields a database session instance per request and closes it when the request completes.
+
+* UserModel: The SQLAlchemy class representing the users table in your database.
+
+* Token, UserCreate, UserResponse: Pydantic schemas validating incoming request bodies and defining what fields get sent back in HTTP responses.
+
+* SECRET_KEY & ALGORITHM: Secret signature key and signature algorithm (e.g., HS256) used by PyJWT.
+
+* get_password_hash & verify_password: Hashing utilities using Bcrypt/Argon2 to safely encrypt passwords before saving them and verify plaintext inputs during login.
+
+* create_access_token: Encodes a payload dictionary into a signed JWT string with an expiration timestamp.
+
+---
+
