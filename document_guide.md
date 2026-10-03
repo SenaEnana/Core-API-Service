@@ -63,3 +63,18 @@ from app.security import (
 
 ---
 
+2. Router & Security Scheme Initialization
+```code
+router = APIRouter(
+    prefix="/auth",
+    tags=["Authentication"],
+)
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token")
+```
+
+* APIRouter(...): Prefixes every endpoint in this file with /auth (making endpoints /auth/register, /auth/token, etc.) and groups them under the "Authentication" category in the Swagger documentation.
+
+* oauth2_scheme: Initializes FastAPI's OAuth2 scheme. Setting tokenUrl="/api/v1/auth/token" tells Swagger UI where to post credentials when you click the Authorize button.
+
+---
