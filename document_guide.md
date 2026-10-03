@@ -202,3 +202,12 @@ user = db.query(UserModel).filter(UserModel.username == form_data.username).firs
 
 ---
 
+```code
+access_token = create_access_token(data={"sub": user.username})
+    return {"access_token": access_token, "token_type": "bearer"}
+```
+
+* Token Issuance: Encodes {"sub": "johndoe"} into a JWT and returns a dictionary matching the Token schema structure:
+
+---
+
