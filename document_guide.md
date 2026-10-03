@@ -102,3 +102,6 @@ credentials_exception = HTTPException(
     )
 ```
 
+* Reusable Exception: Pre-configures a standard 401 error. Including headers={"WWW-Authenticate": "Bearer"} is part of the HTTP OAuth2 specification standards.
+
+---
