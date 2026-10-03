@@ -153,3 +153,25 @@ if db.query(UserModel).filter(UserModel.email == user.email).first():
 ```
 
 * Uniqueness Checks: Queries SQLite/PostgreSQL to prevent duplicate emails or usernames before attempting insertion.
+
+---
+
+```code
+hashed_pwd = get_password_hash(user.password)
+    db_user = UserModel(
+        email=user.email,
+        username=user.username,
+        hashed_password=hashed_pwd,
+    )
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+```
+
+* Password Hashing: Converts plain text (e.g., "mysecurepassword") into a salted hash (e.g., "$2b$12$e8...").
+
+* Persistence: Adds the new user instance to the session, commits the transaction to disk, refreshes db_user to retrieve its generated auto-incrementing id, and returns it.
+
+---
+
