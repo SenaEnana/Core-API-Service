@@ -88,5 +88,17 @@ def get_current_user(
 ) -> UserModel:
 ```
 
+* token: str = Depends(oauth2_scheme): Intercepts the request, inspects the Authorization: Bearer <token> header, strips away "Bearer ", and passes the raw JWT string into token. If no header is found, FastAPI immediately responds with a 401 Unauthorized error.
+
+* db: Session = Depends(get_db): Injects an active SQLAlchemy database session.
+
 ---
+
+```code
+credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+```
 
