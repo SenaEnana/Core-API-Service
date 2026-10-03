@@ -142,3 +142,14 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
 * response_model=UserResponse: Filters the returned model through Pydantic, ensuring sensitive fields like hashed_password are never exposed to the client.
 
 * status_code=status.HTTP_201_CREATED: Sets the standard REST status code (201 Created) for successful resource creation.
+
+---
+
+```code
+if db.query(UserModel).filter(UserModel.email == user.email).first():
+        raise HTTPException(status_code=400, detail="Email already registered")
+    if db.query(UserModel).filter(UserModel.username == user.username).first():
+        raise HTTPException(status_code=400, detail="Username already taken")
+```
+
+* Uniqueness Checks: Queries SQLite/PostgreSQL to prevent duplicate emails or usernames before attempting insertion.
