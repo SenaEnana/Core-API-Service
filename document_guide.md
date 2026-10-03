@@ -78,3 +78,15 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token")
 * oauth2_scheme: Initializes FastAPI's OAuth2 scheme. Setting tokenUrl="/api/v1/auth/token" tells Swagger UI where to post credentials when you click the Authorize button.
 
 ---
+
+3. Current User Dependency (get_current_user)
+
+This dependency acts as a security gatekeeper for protected endpoints.
+```code
+def get_current_user(
+    token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
+) -> UserModel:
+```
+
+---
+
