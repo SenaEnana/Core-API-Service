@@ -132,3 +132,13 @@ user = db.query(UserModel).filter(UserModel.username == username).first()
 
 ---
 
+4. User Registration Endpoint (/register)
+
+```code
+@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+def register_user(user: UserCreate, db: Session = Depends(get_db)):
+```
+
+* response_model=UserResponse: Filters the returned model through Pydantic, ensuring sensitive fields like hashed_password are never exposed to the client.
+
+* status_code=status.HTTP_201_CREATED: Sets the standard REST status code (201 Created) for successful resource creation.
