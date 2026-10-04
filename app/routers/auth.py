@@ -96,6 +96,9 @@ def login_for_access_token(
 
 
 @router.get("/me", response_model=UserResponse)
-def read_users_me(current_user: UserModel = Depends(get_current_user)):
+def read_users_me(
+    current_user: UserModel = Depends(get_current_user),
+    admin_user: UserModel = Depends(require_admin),
+    ):
+    """Only users with role='admin' can view all registered users."""
     return current_user
-
