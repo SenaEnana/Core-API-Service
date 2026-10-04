@@ -42,4 +42,6 @@ uvicorn app.main:app --reload
 
 ---
 
+## 🚧 Roadmap & Upcoming Features
+
 
