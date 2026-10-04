@@ -53,3 +53,8 @@ uvicorn app.main:app --reload
 * [ ] Authentication & authorization middleware
 
 * [ ] Comprehensive test suite & CI/CD pipeline
+
+Note: This repository is actively maintained and continuously updated.
+
+---
+
