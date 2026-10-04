@@ -1,5 +1,8 @@
 # Core API Service
 
+> ⚠️ **Status: Work in Progress (WIP)**  
+> This project is currently under active development and is not yet complete. New features, routes, and modules will be added soon.
+
 Production-ready FastAPI backend foundation built for scalability and clean modular extension.
 
 ## Architecture
