@@ -44,4 +44,12 @@ uvicorn app.main:app --reload
 
 ## 🚧 Roadmap & Upcoming Features
 
+* [x] Basic FastAPI setup & health routes
 
+* [ ] API v1 module expansions
+
+* [ ] Database integration & migrations
+
+* [ ] Authentication & authorization middleware
+
+* [ ] Comprehensive test suite & CI/CD pipeline
