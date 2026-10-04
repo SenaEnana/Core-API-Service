@@ -1,6 +1,11 @@
+import enum
 from sqlalchemy import Boolean, Column, Float, Integer, String
 from app.database import Base
 
+
+class UserRole(str, enum.Enum):
+    ADMIN = "admin"
+    USER = "user"
 
 class UserModel(Base):
     __tablename__ = "users"
@@ -11,6 +16,8 @@ class UserModel(Base):
     hashed_password = Column(String, nullable=False)
     is_active = Column(Boolean, default=True)
 
+    role = Column(Enum(UserRole), default=UserRole.USER, nullable=False)
+
 class ItemModel(Base):
     __tablename__ = "items"
 
@@ -18,4 +25,3 @@ class ItemModel(Base):
     name = Column(String, index=True)
     price = Column(Float)
     is_offer = Column(Boolean, default=False)
-
