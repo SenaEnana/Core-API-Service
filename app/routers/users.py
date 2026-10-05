@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import UserModel, UserRole
-from app.schemas import UserResponse
-from app.routers.auth import get_current_user, require_admin, db_user
+from app.schemas import UserResponse, UserCreate
+from app.routers.auth import get_current_user, require_admin
 
 router = APIRouter(
     prefix="/users",
@@ -51,7 +51,7 @@ def update_user_role(
     return user
 
 @router.put(
-    "{user_id}",
+    "/{user_id}",
     response_model=UserResponse,
 )
 def update_user(
