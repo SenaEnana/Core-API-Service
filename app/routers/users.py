@@ -56,7 +56,7 @@ def update_user_role(
 @router.put("/{user_id}", response_model=UserResponse)
 def update_user(
     user_id: int,
-    user_update: UserCreate,  # Using Pydantic model for incoming data
+    user_update: UserCreate,
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user),
 ):
@@ -65,14 +65,12 @@ def update_user(
     - Regular users can only update their own profile.
     - Admin users can update any user's profile.
     """
-    # 1. Authorization check: Only allow if user is modifying themselves OR is an Admin
     if current_user.id != user_id and current_user.role != UserRole.ADMIN:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to update this user profile",
         )
-
-    # 2. Check if target user exists
+    
     target_user = db.query(UserModel).filter(UserModel.id == user_id).first()
     if not target_user:
         raise HTTPException(status_code=404, detail="User not found")
