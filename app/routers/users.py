@@ -20,3 +20,15 @@ def get_all_users(
     return db.query(UserModel).all()
 
 
+@router.get("/{user_id}", response_model=UserResponse)
+def get_user_by_id(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """Retrieve details for a specific user."""
+    user = db.query(UserModel).filter(UserModel.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
+
