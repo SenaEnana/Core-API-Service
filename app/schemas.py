@@ -47,18 +47,14 @@ class ItemResponse(ItemBase):
         from_attributes = True
 
 
-class OrderBase(BaseModel):
+class OrderCreate(BaseModel):
     name: str
-    order_number: int
-    description: str
+    quantity: int
+    description: str | None = None
 
-
-class OrderCreate(ItemBase):
-    pass
-
-
-class OrderResponse(ItemBase):
+class OrderResponse(OrderCreate):
     id: int
+    user_id: int
 
     class Config:
         from_attributes = True
