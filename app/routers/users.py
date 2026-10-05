@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import UserModel, UserRole
-from app.schemas import UserCreate, UserResponse  # Import appropriate Pydantic schemas
-from app.security import get_password_hash  # Import password hashing utility
+from app.schemas import UserCreate, UserResponse 
+from app.security import get_password_hash 
 from app.routers.auth import get_current_user, require_admin
 
 router = APIRouter(
@@ -56,7 +56,7 @@ def update_user_role(
 @router.put("/{user_id}", response_model=UserResponse)
 def update_user(
     user_id: int,
-    user_update: UserCreate,  # Using Pydantic model for incoming data
+    user_update: UserCreate,
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user),
 ):
@@ -65,19 +65,16 @@ def update_user(
     - Regular users can only update their own profile.
     - Admin users can update any user's profile.
     """
-    # 1. Authorization check: Only allow if user is modifying themselves OR is an Admin
     if current_user.id != user_id and current_user.role != UserRole.ADMIN:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to update this user profile",
         )
-
-    # 2. Check if target user exists
+    
     target_user = db.query(UserModel).filter(UserModel.id == user_id).first()
     if not target_user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # 3. Check for email/username uniqueness if changing to values used by someone else
     existing_email = db.query(UserModel).filter(
         UserModel.email == user_update.email, UserModel.id != user_id
     ).first()
@@ -89,13 +86,11 @@ def update_user(
     ).first()
     if existing_username:
         raise HTTPException(status_code=400, detail="Username already taken")
-
-    # 4. Update fields securely
+    
     target_user.email = user_update.email
     target_user.username = user_update.username
     target_user.hashed_password = get_password_hash(user_update.password)  # Hash password!
 
-    # 5. Only Admins can update the role field
     if current_user.role == UserRole.ADMIN and hasattr(user_update, "role"):
         target_user.role = user_update.role
 
