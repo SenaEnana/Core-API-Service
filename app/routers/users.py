@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import UserModel, UserRole
-from app.schemas import UserCreate, UserResponse  # Import appropriate Pydantic schemas
-from app.security import get_password_hash  # Import password hashing utility
+from app.schemas import UserCreate, UserResponse 
+from app.security import get_password_hash 
 from app.routers.auth import get_current_user, require_admin
 
 router = APIRouter(
