@@ -25,3 +25,11 @@ class ItemModel(Base):
     name = Column(String, index=True)
     price = Column(Float)
     is_offer = Column(Boolean, default=False)
+
+class OrderModel(Base):
+    __tablename__ = "order"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+    order_number = Column(Integer, index=True)
+    description = Column(String, index=True)
