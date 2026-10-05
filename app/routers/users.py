@@ -75,7 +75,6 @@ def update_user(
     if not target_user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # 3. Check for email/username uniqueness if changing to values used by someone else
     existing_email = db.query(UserModel).filter(
         UserModel.email == user_update.email, UserModel.id != user_id
     ).first()
@@ -87,13 +86,12 @@ def update_user(
     ).first()
     if existing_username:
         raise HTTPException(status_code=400, detail="Username already taken")
-
-    # 4. Update fields securely
+    
     target_user.email = user_update.email
     target_user.username = user_update.username
     target_user.hashed_password = get_password_hash(user_update.password)  # Hash password!
 
-    # 5. Only Admins can update the role field
+    # 5. 
     if current_user.role == UserRole.ADMIN and hasattr(user_update, "role"):
         target_user.role = user_update.role
 
