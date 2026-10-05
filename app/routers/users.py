@@ -91,7 +91,6 @@ def update_user(
     target_user.username = user_update.username
     target_user.hashed_password = get_password_hash(user_update.password)  # Hash password!
 
-    # 5. 
     if current_user.role == UserRole.ADMIN and hasattr(user_update, "role"):
         target_user.role = user_update.role
 
