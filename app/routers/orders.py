@@ -36,17 +36,12 @@ def create_order(
     db.commit()
     db.refresh(db_order)
     return db_order 
-    # return {
-    #     "message": "Order created successfully",
-    #     "user_id": current_user.id,
-    #     "order": order,
-    # }
 
-# @router.get("/my-orders")
-# def get_my_orders(
-#     current_user: UserModel = Depends(get_current_user),
-#     db: Session = Depends(get_db),
-# ):
-#     """Get all orders belonging to the logged-in user."""
-#     return db.query(OrderModel).filter(OrderModel.user_id == current_user.id).all()
-#     return {"user": current_user.username, "orders": []}
+@router.get("/my-orders")
+def get_my_orders(
+    current_user: UserModel = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Get all orders belonging to the logged-in user."""
+    return db.query(OrderModel).filter(OrderModel.user_id == current_user.id).all()
+    return {"user": current_user.username, "orders": []}
