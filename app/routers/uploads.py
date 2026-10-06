@@ -18,4 +18,14 @@ def upload_file(
     file: UploadFile = File(...),
     current_user: UserModel = Depends(get_current_user),
 ):
+    """Upload a file associated with the authenticated user."""
+    allowed_extensions = {".jpg", ".jpeg", ".png", ".pdf"}
+    file_ext = Path(file.filename).suffix.lower()
+
+    if file_ext not in allowed_extensions:
+        raise HTTPException(
+            status_code=400,
+            detail=f"File extension '{file_ext}' not allowed. Allowed: {allowed_extensions}",
+        )
+
    
