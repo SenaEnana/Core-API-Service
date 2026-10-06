@@ -31,6 +31,6 @@ class OrderModel(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    order_number = Column(Integer, nullable=False)
+    quantity = Column(Integer, nullable=False)
     description = Column(String, nullable=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
