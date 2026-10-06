@@ -49,7 +49,7 @@ class ItemResponse(ItemBase):
 
 class OrderCreate(BaseModel):
     name: str
-    order_number: int
+    quantity: int
     description: str | None = None
 
 class OrderResponse(OrderCreate):
