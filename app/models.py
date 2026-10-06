@@ -1,5 +1,5 @@
 import enum
-from sqlalchemy import Boolean, Column, Enum, Float, Integer, String
+from sqlalchemy import Boolean, Column, Enum, Float, ForeignKey, Integer, String
 from app.database import Base
 
 
@@ -27,9 +27,10 @@ class ItemModel(Base):
     is_offer = Column(Boolean, default=False)
 
 class OrderModel(Base):
-    __tablename__ = "order"
+    __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    order_number = Column(Integer, index=True)
-    description = Column(String, index=True)
+    name = Column(String, nullable=False)
+    order_number = Column(Integer, nullable=False)
+    description = Column(String, nullable=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
