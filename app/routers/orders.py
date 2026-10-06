@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import UserModel, OrderModel
 from app.schemas import OrderCreate, OrderResponse
-from app.routers.auth import get_current_user, require_admin
+from app.routers.auth import get_current_user
 
 router = APIRouter(
     prefix="/orders",
@@ -25,12 +25,12 @@ def create_order(
     order: OrderCreate,
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user),  # <-- PROTECTED!
-    admin_user: UserModel = Depends(require_admin),  # 🔒 Admin-only!
 ):
     db_order = OrderModel(
         name=order.name,
         order_number=order.order_number,
         description=order.description,
+        user_id=current_user.id,
     )
     db.add(db_order)
     db.commit()
