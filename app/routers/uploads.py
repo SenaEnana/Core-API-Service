@@ -10,3 +10,12 @@ router = APIRouter(
     tags=["Uploads"],
 )
 
+UPLOAD_DIR = Path("static/uploads")
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
+@router.post("/file")
+def upload_file(
+    file: UploadFile = File(...),
+    current_user: UserModel = Depends(get_current_user),
+):
+   
