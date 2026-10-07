@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class Settings(BaseSettings):
     SECRET_KEY: str
     ALGORITHM: str = "HS256"
@@ -11,10 +12,7 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     ALLOWED_ORIGINS: list[str] = ["http://localhost:3000"]
 
-
     model_config = SettingsConfigDict(env_file=".env")
 
-    class Config:
-        env_file = ".env"
 
 settings = Settings()
