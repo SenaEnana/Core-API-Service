@@ -9,9 +9,8 @@ from alembic import context
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app.database import Base, SQLALCHEMY_DATABASE_URL  # or import engine directly
-import app.models  # Ensures all models (UserModel, OrderModel, etc.) are registered
+import app.models 
 
-# Alembic Config object
 config = context.config
 
 # Interpret the config file for Python logging
