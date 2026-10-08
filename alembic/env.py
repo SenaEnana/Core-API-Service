@@ -23,9 +23,8 @@ if config.config_file_name:
 # Set target metadata for autogenerate support
 target_metadata = Base.metadata
 
-# 3. OVERRIDE sql_alchemy.url with your app's actual connection string!
-config.set_main_option("sqlalchemy.url", SQLALCHEMY_DATABASE_URL)
-
+# config.set_main_option("sqlalchemy.url", SQLALCHEMY_DATABASE_URL)
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode."""
