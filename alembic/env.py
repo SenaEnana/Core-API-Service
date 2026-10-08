@@ -6,10 +6,8 @@ from app.config import settings
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 
-# 1. Add app directory to Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# 2. Import your Base, Models, and Engine/URL from your app
 from app.database import Base, SQLALCHEMY_DATABASE_URL  # or import engine directly
 import app.models  # Ensures all models (UserModel, OrderModel, etc.) are registered
 
