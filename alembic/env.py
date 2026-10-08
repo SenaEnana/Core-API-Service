@@ -8,20 +8,18 @@ from alembic import context
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from app.database import Base, SQLALCHEMY_DATABASE_URL  # or import engine directly
+from app.database import Base, SQLALCHEMY_DATABASE_URL
 import app.models 
 
 config = context.config
 
-# Interpret the config file for Python logging
 if config.config_file_name:
     fileConfig(config.config_file_name)
 
-# Set target metadata for autogenerate support
 target_metadata = Base.metadata
 
-# config.set_main_option("sqlalchemy.url", SQLALCHEMY_DATABASE_URL)
-config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+# config.set_main_option("sqlalchemy.url", SQLALCHEMY_DATABASE_URL)  # 👈 configuration for the docker
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)      # 👈 configuration without docker
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode."""
