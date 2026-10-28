@@ -46,7 +46,7 @@ uvicorn app.main:app --reload
 
 * [x] Basic FastAPI setup & health routes
 
-* [ ] API v1 module expansions
+* [x] API v1 module expansions
 
 * [ ] Database integration & migrations
 
