@@ -58,3 +58,4 @@ Note: This repository is actively maintained and continuously updated.
 
 ---
 
+## Author
