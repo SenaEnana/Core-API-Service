@@ -46,11 +46,11 @@ uvicorn app.main:app --reload
 
 * [x] Basic FastAPI setup & health routes
 
-* [ ] API v1 module expansions
+* [x] API v1 module expansions
 
-* [ ] Database integration & migrations
+* [x] Database integration & migrations
 
-* [ ] Authentication & authorization middleware
+* [x] Authentication & authorization middleware
 
 * [ ] Comprehensive test suite & CI/CD pipeline
 
@@ -58,3 +58,6 @@ Note: This repository is actively maintained and continuously updated.
 
 ---
 
+## Author
+
+Sena Adane
