@@ -50,7 +50,7 @@ uvicorn app.main:app --reload
 
 * [x] Database integration & migrations
 
-* [ ] Authentication & authorization middleware
+* [x] Authentication & authorization middleware
 
 * [ ] Comprehensive test suite & CI/CD pipeline
 
