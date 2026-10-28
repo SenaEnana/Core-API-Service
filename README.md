@@ -48,7 +48,7 @@ uvicorn app.main:app --reload
 
 * [x] API v1 module expansions
 
-* [ ] Database integration & migrations
+* [x] Database integration & migrations
 
 * [ ] Authentication & authorization middleware
 
