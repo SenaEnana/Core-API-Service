@@ -3,12 +3,12 @@
 This file contains back commit commands used in Github Codespace and Visual Code Studio terminals.
 ---
 
-### Codespace
+* Codespace
 
-1. GIT_AUTHOR_DATE="2026-10-1T10:00:00" GIT_COMMITTER_DATE="2026-10-1T10:00:00" git commit --date="2026-10-1T10:00:00" -m "refactored the page"
+GIT_AUTHOR_DATE="2026-10-1T10:00:00" GIT_COMMITTER_DATE="2026-10-1T10:00:00" git commit --date="2026-10-1T10:00:00" -m "refactored the page"
 ---
 
-### VS Code
+* VS Code
 
-2. $env:GIT_AUTHOR_DATE="2026-10-1T10:00:00"; $env:GIT_COMMITTER_DATE="2026-10-1T10:00:00"; git commit --date="2026-10-1T10:00:00" -m "refactored the code"
+$env:GIT_AUTHOR_DATE="2026-10-1T10:00:00"; $env:GIT_COMMITTER_DATE="2026-10-1T10:00:00"; git commit --date="2026-10-1T10:00:00" -m "refactored the code"
 ---
